@@ -2,7 +2,7 @@
   "name": "noflo-html",
   "description": "HTML handling components for the NoFlo flow-based programming environment",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "licenses": [{
     "type": "MIT",
     "url": "https://github.com/bergie/noflo/raw/master/LICENSE"
@@ -15,7 +15,7 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "0.3.x",
+    "noflo": "0.4.x",
     "cheerio": "0.7.x"
   },
   "devDependencies": {
@@ -24,6 +24,7 @@
     "coffee-script": "1.4.x"
   },
   "noflo": {
+    "icons": "file-text-o",
     "components": {
       "ScrapeHtml": "./components/ScrapeHtml.coffee"
     }
