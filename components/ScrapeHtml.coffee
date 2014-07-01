@@ -5,52 +5,38 @@ decode = (str) ->
   return str unless str.indexOf "&" >= 0
   return str.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")
 
-class ScrapeHtml extends noflo.Component
-  constructor: ->
-    @textSelector = ""
-    @ignoreSelectors = []
+exports.getComponent = ->
+  c = new noflo.Component
+  c.description = 'Extract contents from HTML based on CSS selectors'
+  c.ignoreSelectors = []
 
-    @inPorts =
-      in: new noflo.Port()
-      textSelector: new noflo.Port()
-      ignoreSelector: new noflo.ArrayPort()
-    @outPorts =
-      out: new noflo.Port()
+  c.inPorts.add 'in',
+    datatype: 'string'
+    description: 'HTML to scrape from'
+  c.inPorts.add 'textselector',
+    datatype: 'string'
+    description: 'CSS selector to use'
+  c.inPorts.add 'ignoreselector',
+    datatype: 'string'
+    process: (event, payload) ->
+      return unless event is 'data'
+      c.ignoreSelectors.push payload
 
-    @html = ""
-    @inPorts.in.on "connect", =>
-      @html = ""
-    @inPorts.in.on "begingroup", (group) =>
-      @html = ""
-      @outPorts.out.beginGroup group
-    @inPorts.in.on "data", (data) =>
-      @html += data
-    @inPorts.in.on "endgroup", =>
-      @scrapeHtml()
-      @outPorts.out.endGroup()
-    @inPorts.in.on "disconnect", =>
-      @scrapeHtml()
-      @outPorts.out.disconnect()
+  c.outPorts.add 'out',
+    datatype: 'string'
 
-    @inPorts.textSelector.on "data", (data) =>
-      @textSelector = data
-    @inPorts.textSelector.on "disconnect", =>
-      @scrapeHtml()
-
-    @inPorts.ignoreSelector.on "data", (data) =>
-      @ignoreSelectors.push data
-
-  scrapeHtml: ->
-    return unless @html.length > 0
-    return unless @textSelector.length > 0
-    $ = cheerio.load @html
-    $(ignore).remove() for ignore in @ignoreSelectors
-    $(@textSelector).each (i,e) =>
+  noflo.helpers.WirePattern c,
+    in: ['in', 'textselector']
+    out: 'out'
+    forwardGroups: true
+  , (data, groups, out) ->
+    $ = cheerio.load data.in
+    $(ignore).remove() for ignore in c.ignoreSelectors
+    $(data.textselector).each (i,e) ->
       o = $(e)
       id = o.attr "id"
-      @outPorts.out.beginGroup id if id?
-      @outPorts.out.send decode o.text()
-      @outPorts.out.endGroup() if id?
-    @html = ""
+      out.beginGroup id if id?
+      out.send decode o.text()
+      out.endGroup() if id?
 
-exports.getComponent = -> new ScrapeHtml
+  c
