@@ -3,7 +3,7 @@
   "description": "HTML components for NoFlo",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
   "repo": "noflo/noflo-html",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
