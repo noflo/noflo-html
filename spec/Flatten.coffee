@@ -22,6 +22,36 @@ describe 'Flatten component', ->
     it 'should have an output port', ->
       chai.expect(c.outPorts.out).to.be.an 'object'
 
+  describe 'flattening HTML structures inside item', ->
+    it 'should be able to find a video and a paragraph', (done) ->
+      sent =
+        id: 'main'
+        html: """
+        <p>Hello world, <b>this</b> is some text</p>
+        <video src="http://foo.bar"></video>
+        <p class='pagination-centered'><img class='img-polaroid' src='http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png' /><img /></p>
+        """
+
+      expected =
+        id: 'main'
+        content: [
+          type: 'text'
+          html: '<p>Hello world, <b>this</b> is some text</p>'
+        ,
+          type: 'video'
+          video: 'http://foo.bar/'
+          html: '<video src="http://foo.bar/"></video>'
+        ,
+          type: 'image'
+          src: 'http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png'
+          html: '<img src="http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png">'
+        ]
+
+      out.on 'data', (data) ->
+        chai.expect(data).to.eql expected
+        done()
+      ins.send sent
+
   describe 'flattening HTML structures', ->
     it 'should be able to find a video and a paragraph', (done) ->
       if console.timeEnd

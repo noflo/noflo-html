@@ -23,6 +23,12 @@ class Flatten extends noflo.AsyncComponent
     super()
 
   doAsync: (page, callback) ->
+    if page.html and not page.items
+      @flattenItem page, =>
+        @outPorts.out.send page
+        do callback
+      return
+
     toDo = page.items.length
     return callback() unless toDo
 
