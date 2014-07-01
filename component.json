@@ -6,11 +6,13 @@
   "version": "0.0.3",
   "keywords": [],
   "dependencies": {
-    "noflo/noflo": "*"
+    "noflo/noflo": "*",
+    "bergie/node-htmlparser": "published",
+    "medialize/URI.js": "*"
   },
   "scripts": [
     "index.js",
-    "components/ScrapeHtml.coffee"
+    "components/Flatten.coffee"
   ],
   "json": [
     "component.json"
@@ -18,7 +20,7 @@
   "noflo": {
     "icon": "html5",
     "components": {
-      "ScrapeHtml": "components/ScrapeHtml.coffee"
+      "Flatten": "components/Flatten.coffee"
     }
   }
 }

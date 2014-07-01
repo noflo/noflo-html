@@ -1,6 +1,8 @@
 noflo = require "noflo"
 cheerio = require "cheerio"
 
+# @runtime noflo-nodejs
+
 decode = (str) ->
   return str unless str.indexOf "&" >= 0
   return str.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&")

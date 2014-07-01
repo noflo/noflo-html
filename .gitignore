@@ -2,3 +2,4 @@
 /components/*/
 /browser/
 /spec/result.xml
+/spec/*.js

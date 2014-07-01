@@ -25,7 +25,7 @@ module.exports = ->
     noflo_browser:
       build:
         files:
-          'browser/noflo-thegrid.js': ['component.json']
+          'browser/noflo-html.js': ['component.json']
 
     # JavaScript minification for the browser
     uglify:
@@ -33,7 +33,7 @@ module.exports = ->
         report: 'min'
       noflo:
         files:
-          './browser/noflo-thegrid.min.js': ['./browser/noflo-thegrid.js']
+          './browser/noflo-html.min.js': ['./browser/noflo-html.js']
 
     # Automated recompilation and testing when developing
     watch:
