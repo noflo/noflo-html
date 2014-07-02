@@ -40,7 +40,8 @@
     "icons": "html5",
     "components": {
       "Flatten": "components/Flatten.coffee",
-      "ScrapeHtml": "components/ScrapeHtml.coffee"
+      "ScrapeHtml": "components/ScrapeHtml.coffee",
+      "Unflatten": "components/Unflatten.coffee"
     }
   },
   "scripts": {

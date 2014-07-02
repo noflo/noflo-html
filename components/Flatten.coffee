@@ -16,9 +16,9 @@ class Flatten extends noflo.AsyncComponent
   ]
   constructor: ->
     @inPorts =
-      in: new noflo.Port 'string'
+      in: new noflo.Port 'object'
     @outPorts =
-      out: new noflo.Port 'array'
+      out: new noflo.Port 'object'
       error: new noflo.Port 'object'
     super()
 

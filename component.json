@@ -3,7 +3,7 @@
   "description": "HTML components for NoFlo",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
   "repo": "noflo/noflo-html",
-  "version": "0.0.5",
+  "version": "0.0.4",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
@@ -12,7 +12,8 @@
   },
   "scripts": [
     "index.js",
-    "components/Flatten.coffee"
+    "components/Flatten.coffee",
+    "components/Unflatten.coffee"
   ],
   "json": [
     "component.json"
@@ -20,7 +21,8 @@
   "noflo": {
     "icon": "html5",
     "components": {
-      "Flatten": "components/Flatten.coffee"
+      "Flatten": "components/Flatten.coffee",
+      "Unflatten": "components/Unflatten.coffee"
     }
   }
 }
