@@ -13,6 +13,7 @@ class Flatten extends noflo.AsyncComponent
     'footer'
     'nav'
     'br'
+    'meta'
     's'
   ]
   ignoredAttribs: [
