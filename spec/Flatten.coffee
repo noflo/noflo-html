@@ -444,3 +444,32 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+
+  describe 'flattening Twitter-style HTML structures', ->
+    it 'should be able to find a video and a paragraph', (done) ->
+      if console.timeEnd
+        console.time 'flattening HTML structures'
+      sent =
+        path: 'foo/bar.html'
+        items: [
+          id: 'https://twitter.com/RonConway/status/472107533788672000'
+          html: "Help <a href=\"/BUILDNational\" class=\"twitter-atreply pretty-link\" dir=\"ltr\"><s>@</s><b>BUILDnational</b></a> win $500,000 in the <a href=\"/hashtag/GoogleImpactChallenge?src=hash\" data-query-source=\"hashtag_click\" class=\"twitter-hashtag pretty-link js-nav\" dir=\"ltr\"><s>#</s><b>GoogleImpactChallenge</b></a>! VOTE here: <a href=\"http://t.co/7AzWeaex0D\" rel=\"nofollow\" dir=\"ltr\" data-expanded-url=\"http://bit.ly/1h0KqKN\" class=\"twitter-timeline-link\" target=\"_blank\" title=\"http://bit.ly/1h0KqKN\"><span class=\"tco-ellipsis\"></span><span class=\"invisible\">http://</span><span class=\"js-display-url\">bit.ly/1h0KqKN</span><span class=\"invisible\"></span><span class=\"tco-ellipsis\"><span class=\"invisible\">&nbsp;</span></span></a> <a href=\"/hashtag/BUILDgreaterimpact?src=hash\" data-query-source=\"hashtag_click\" class=\"twitter-hashtag pretty-link js-nav\" dir=\"ltr\"><s>#</s><b>BUILDgreaterimpact</b></a> <a href=\"/hashtag/togetherweBUILD?src=hash\" data-query-source=\"hashtag_click\" class=\"twitter-hashtag pretty-link js-nav\" dir=\"ltr\"><s>#</s><b>togetherweBUILD</b></a>"
+        ]
+
+      expected =
+        path: 'foo/bar.html'
+        items: [
+          id: 'https://twitter.com/RonConway/status/472107533788672000'
+          content: [
+            type: 'text'
+            html: "<p>Help <a href=\"https://twitter.com/BUILDNational\">@<b>BUILDnational</b></a> win $500,000 in the <a href=\"https://twitter.com/hashtag/GoogleImpactChallenge?src=hash\">#<b>GoogleImpactChallenge</b></a>! VOTE here: <a href=\"http://t.co/7AzWeaex0D\" title=\"http://bit.ly/1h0KqKN\">http://bit.ly/1h0KqKN</a><a href=\"https://twitter.com/hashtag/BUILDgreaterimpact?src=hash\">#<b>BUILDgreaterimpact</b></a><a href=\"https://twitter.com/hashtag/togetherweBUILD?src=hash\">#<b>togetherweBUILD</b></a></p>"
+          ]
+        ]
+
+      out.on 'data', (data) ->
+        if console.timeEnd
+          console.timeEnd 'flattening HTML structures'
+        chai.expect(data).to.eql expected
+        done()
+      ins.send sent
+

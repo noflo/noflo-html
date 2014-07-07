@@ -13,6 +13,16 @@ class Flatten extends noflo.AsyncComponent
     'footer'
     'nav'
     'br'
+    's'
+  ]
+  ignoredAttribs: [
+    'id'
+    'class'
+    'data-query-source'
+    'data-expanded-url'
+    'target'
+    'rel'
+    'dir'
   ]
   constructor: ->
     @inPorts =
@@ -45,10 +55,12 @@ class Flatten extends noflo.AsyncComponent
       do callback
       return
 
+    unless item.html.match /^[\s]*</
+      item.html = "<p>#{item.html}</p>"
+
     handler = new htmlparser.DefaultHandler (err, dom) =>
       item.content = []
       for tag in dom
-        continue unless tag.type is 'tag'
         normalized = @normalizeTag tag, item.id
         continue unless normalized
         for block in normalized
@@ -70,6 +82,12 @@ class Flatten extends noflo.AsyncComponent
   normalizeTag: (tag, id) ->
     results = []
 
+    if tag.type is 'text'
+      results.push
+        type: 'text'
+        html: @tagToHtml tag, id
+      return results
+
     if tag.name in @structuralTags
       return results unless tag.children
       for child in tag.children
@@ -84,7 +102,7 @@ class Flatten extends noflo.AsyncComponent
         results.push
           type: 'video'
           video: tag.attribs.src
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'iframe'
         return results unless tag.attribs
         tag.attribs.src = @normalizeUrl tag.attribs.src, id
@@ -92,18 +110,18 @@ class Flatten extends noflo.AsyncComponent
           results.push
             type: 'video'
             video: tag.attribs.src
-            html: @tagToHtml tag
+            html: @tagToHtml tag, id
         else
           results.push
             type: 'unknown'
-            html: @tagToHtml tag
+            html: @tagToHtml tag, id
       when 'img'
         return results unless tag.attribs
         tag.attribs.src = @normalizeUrl tag.attribs.src, id
         img =
           type: 'image'
           src: tag.attribs.src
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
         if tag.attribs.title or tag.attribs.alt
           img.caption = tag.attribs.title or tag.attribs.alt
         results.push img
@@ -121,11 +139,11 @@ class Flatten extends noflo.AsyncComponent
               src = child.attribs.src
             type = 'image'
           if child.name is 'figcaption'
-            caption = @tagToHtml child
+            caption = @tagToHtml child, id
         img =
           type: type
           src: src
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
         if caption
           img.caption = caption
         results.push img
@@ -147,7 +165,7 @@ class Flatten extends noflo.AsyncComponent
         return normalized unless hasContent
 
         # If we have other stuff too, then return them as-is
-        html = @tagToHtml tag
+        html = @tagToHtml tag, id
         return results if html is '<p></p>'
         results.push
           type: 'text'
@@ -155,33 +173,34 @@ class Flatten extends noflo.AsyncComponent
       when 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
         results.push
           type: 'headline'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'pre'
         results.push
           type: 'code'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'ul', 'ol', 'dl'
         results.push
           type: 'list'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'blockquote'
         results.push
           type: 'quote'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'table'
         results.push
           type: 'table'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'time'
         results.push
           type: 'time'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
       when 'a'
         return results unless tag.children
         if tag.attribs
           tag.attribs.href = @normalizeUrl tag.attribs.href, id
         normalizedChild = @normalizeTag tag.children[0], id
-        normalizedChild[0].html = @tagToHtml tag
+        return results unless normalizedChild.length
+        normalizedChild[0].html = @tagToHtml tag, id
         return normalizedChild
       # Tags that we ignore entirely
       when 'form', 'input', 'textarea', 'aside', 'button', 'meta', 'script', 'hr', 'br'
@@ -189,10 +208,10 @@ class Flatten extends noflo.AsyncComponent
       else
         results.push
           type: 'unknown'
-          html: @tagToHtml tag
+          html: @tagToHtml tag, id
     results
 
-  tagToHtml: (tag) ->
+  tagToHtml: (tag, id) ->
     if tag.type is 'text'
       return '' unless tag.data
       return '' if tag.data.trim() is ''
@@ -202,19 +221,21 @@ class Flatten extends noflo.AsyncComponent
       return '' unless tag.children
       content = ''
       for child in tag.children
-        content += @tagToHtml child
+        content += @tagToHtml child, id
       return content
 
     attributes = ''
     if tag.attribs
       for attrib, val of tag.attribs
-        continue if attrib is 'id' or attrib is 'class'
+        continue if attrib in @ignoredAttribs
+        if tag.name is 'a' and attrib is 'href'
+          val = @normalizeUrl val, id
         attributes += " #{attrib}=\"#{val}\""
     html = "<#{tag.name}#{attributes}>"
     if tag.children
       content = ''
       for child in tag.children
-        content += @tagToHtml child
+        content += @tagToHtml child, id
       html += content
     if tag.name isnt 'img'
       html += "</#{tag.name}>"
