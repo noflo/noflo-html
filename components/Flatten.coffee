@@ -118,6 +118,8 @@ class Flatten extends noflo.AsyncComponent
       when 'img'
         return results unless tag.attribs
         tag.attribs.src = @normalizeUrl tag.attribs.src, id
+        if tag.attribs.src is 'http://en.wikipedia.org/wiki/Special:CentralAutoLogin/start?type=1x1'
+          return results
         img =
           type: 'image'
           src: tag.attribs.src
@@ -229,6 +231,8 @@ class Flatten extends noflo.AsyncComponent
       for attrib, val of tag.attribs
         continue if attrib in @ignoredAttribs
         if tag.name is 'a' and attrib is 'href'
+          val = @normalizeUrl val, id
+        if tag.name is 'img' and attrib is 'src'
           val = @normalizeUrl val, id
         attributes += " #{attrib}=\"#{val}\""
     html = "<#{tag.name}#{attributes}>"
