@@ -53,7 +53,7 @@ describe 'Flatten component', ->
       ins.send sent
 
   describe 'flattening HTML structures', ->
-    it 'should be able to find a video and a paragraph', (done) ->
+    it 'should be able to find a video and an image inside figures', (done) ->
       if console.timeEnd
         console.time 'flattening HTML structures'
       sent =
@@ -62,8 +62,8 @@ describe 'Flatten component', ->
           id: 'main'
           html: """
           <p>Hello world, <b>this</b> is some text</p>
-          <video src="http://foo.bar"></video>
-          <p class='pagination-centered'><img class='img-polaroid' src='http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png' /><img /></p>
+          <figure><iframe frameborder="0" src="http://www.youtube.com/embed/YzC7MfCtkzo"></iframe></figure>
+          <figure><img alt=\"An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.\" src=\"http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png\">An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.</figure>
           """
         ]
 
@@ -76,12 +76,12 @@ describe 'Flatten component', ->
             html: '<p>Hello world, <b>this</b> is some text</p>'
           ,
             type: 'video'
-            video: 'http://foo.bar/'
-            html: '<video src="http://foo.bar/"></video>'
+            video: 'http://www.youtube.com/embed/YzC7MfCtkzo'
+            html: '<iframe frameborder="0" src="http://www.youtube.com/embed/YzC7MfCtkzo"></iframe>'
           ,
             type: 'image'
-            src: 'http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png'
-            html: '<img src="http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png">'
+            src: 'http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png'
+            html: '<figure><img alt=\"An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.\" src=\"http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png\">An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.</figure>'
           ]
         ]
 

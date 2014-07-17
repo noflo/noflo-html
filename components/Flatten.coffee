@@ -134,6 +134,8 @@ class Flatten extends noflo.AsyncComponent
         src = undefined
         caption = null
         for child in tag.children
+          if child.name is 'iframe'
+            return @normalizeTag child, id
           if child.name is 'code'
             type = 'code'
           if child.name is 'img'
