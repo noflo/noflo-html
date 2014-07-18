@@ -40,8 +40,12 @@ class Flatten extends noflo.AsyncComponent
         do callback
       return
 
+    unless page.items?.length
+      @outPorts.out.send page
+      do callback
+      return
+
     toDo = page.items.length
-    return callback() unless toDo
 
     for item in page.items
       @flattenItem item, =>
