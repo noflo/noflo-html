@@ -92,6 +92,43 @@ describe 'Flatten component', ->
         done()
       ins.send sent
 
+    it 'should be able to find images inside paragraphs', (done) ->
+      if console.timeEnd
+        console.time 'flattening HTML structures'
+      sent =
+        path: 'foo/bar.html'
+        items: [
+          id: 'main'
+          html: """
+          <p>Hello world, <b>this</b> is some text</p>
+          <p>Another exciting new product is <a href="http://noflojs.org/">NoFlo,</a> a flow-based Javascript programming tool. Developed as the result of a successful Kickstarter campaign (disclosure: I was a backer), it highlights both the dissatisfaction with the currently available tools, and the untapped potential for flow-based programming tools, that could be more easily understood by non-programmers. NoFlo builds upon Node.js to deliver functional apps to the browser. Native output to Android and iOS is in the works.<a href="http://noflojs.org/"><img src="http://netdna.webdesignerdepot.com/uploads/2014/07/0091.jpg" alt=""></a></p>
+          """
+        ]
+
+      expected =
+        path: 'foo/bar.html'
+        items: [
+          id: 'main'
+          content: [
+            type: 'text'
+            html: '<p>Hello world, <b>this</b> is some text</p>'
+          ,
+            type: 'text'
+            html: '<p>Another exciting new product is <a href="http://noflojs.org/">NoFlo,</a> a flow-based Javascript programming tool. Developed as the result of a successful Kickstarter campaign (disclosure: I was a backer), it highlights both the dissatisfaction with the currently available tools, and the untapped potential for flow-based programming tools, that could be more easily understood by non-programmers. NoFlo builds upon Node.js to deliver functional apps to the browser. Native output to Android and iOS is in the works.</p>'
+          ,
+            type: 'image'
+            src: 'http://netdna.webdesignerdepot.com/uploads/2014/07/0091.jpg'
+            html: '<a href="http://noflojs.org/"><img src="http://netdna.webdesignerdepot.com/uploads/2014/07/0091.jpg" alt=""></a>'
+          ]
+        ]
+
+      out.on 'data', (data) ->
+        if console.timeEnd
+          console.timeEnd 'flattening HTML structures'
+        chai.expect(data).to.eql expected
+        done()
+      ins.send sent
+
     it 'should be able to normalize video and image URLs', (done) ->
       if console.timeEnd
         console.time 'URL normalization'

@@ -160,25 +160,36 @@ class Flatten extends noflo.AsyncComponent
         return unless tag.children
         hasContent = false
         normalized = []
+        remove = []
         for child in tag.children
           if child.name is 'video'
             normalized = normalized.concat @normalizeTag child, id
+            remove.push child
           else if child.name is 'img'
             normalized = normalized.concat @normalizeTag child, id
-          else if child.name is 'a' and tag.children.length is 1
-            normalized = normalized.concat @normalizeTag child, id
+            remove.push child
+          else if child.name is 'a'
+            normalizedChild = @normalizeTag child, id
+            for n in normalizedChild
+              continue unless n.type in ['image', 'video']
+              normalized.push n
+              remove.push child if child.children.length is 1
           else
             hasContent = true
         # If we only have images or videos inside, then return them
         # as individual items
-        return normalized unless hasContent
+        for r in remove
+          tag.children.splice tag.children.indexOf(r), 1
 
         # If we have other stuff too, then return them as-is
         html = @tagToHtml tag, id
-        return results if html is '<p></p>'
-        results.push
-          type: 'text'
-          html: html
+        unless html is '<p></p>'
+          results.push
+            type: 'text'
+            html: html
+
+        if normalized.length
+          results.push n for n in normalized
       when 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
         results.push
           type: 'headline'
