@@ -116,6 +116,11 @@ class Flatten extends noflo.AsyncComponent
             type: 'video'
             video: tag.attribs.src
             html: @tagToHtml tag, id
+        else if tag.attribs.src.indexOf('soundcloud.com') isnt -1
+          results.push
+            type: 'audio'
+            video: tag.attribs.src
+            html: @tagToHtml tag, id
         else
           results.push
             type: 'unknown'
