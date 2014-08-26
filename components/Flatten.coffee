@@ -8,7 +8,6 @@ class Flatten extends noflo.AsyncComponent
     'div'
     'section'
     'span'
-    'article'
     'header'
     'footer'
     'nav'
@@ -134,8 +133,8 @@ class Flatten extends noflo.AsyncComponent
           type: 'image'
           src: tag.attribs.src
           html: @tagToHtml tag, id
-        if tag.attribs.title or tag.attribs.alt
-          img.caption = tag.attribs.title or tag.attribs.alt
+        img.title = tag.attribs.title if tag.attribs.title
+        img.caption = tag.attribs.alt if tag.attribs.alt
         results.push img
       when 'figure'
         return results unless tag.children
@@ -158,9 +157,25 @@ class Flatten extends noflo.AsyncComponent
           type: type
           src: src
           html: @tagToHtml tag, id
-        if caption
-          img.caption = caption
+        img.caption = caption if caption
         results.push img
+      when 'article'
+        return results unless tag.children
+        caption = null
+        title = null
+        for child in tag.children
+          if child.name is 'h1' and not title
+            title = ''
+            title += @tagToHtml c for c in child.children
+          if child.name is 'p' and not caption
+            caption = ''
+            caption += @tagToHtml c for c in child.children
+         article =
+           type: 'article'
+           html: @tagToHtml tag, id
+         article.title = title if title
+         article.caption = caption if caption
+         results.push article
       when 'p', 'em', 'small'
         return unless tag.children
         hasContent = false
@@ -242,7 +257,7 @@ class Flatten extends noflo.AsyncComponent
       return '' if tag.data.trim() is ''
       return '' if tag.data is '&nbsp;'
       return tag.data
-    if tag.name in @structuralTags or tag.name is 'figcaption'
+    if tag.name in @structuralTags or tag.name in ['figcaption', 'article']
       return '' unless tag.children
       content = ''
       for child in tag.children

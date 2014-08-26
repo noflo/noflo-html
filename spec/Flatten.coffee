@@ -246,7 +246,8 @@ describe 'Flatten component', ->
           content: [
             type: 'image'
             src: 'http://foo.bar/'
-            caption: 'My cool photo'
+            title: 'My cool photo'
+            caption: 'An image'
             html: '<a href="http://foo.bar/"><img src="http://foo.bar/" alt="An image" title="My cool photo" data-foo="bar"></a>'
           ]
         ]
@@ -370,7 +371,7 @@ describe 'Flatten component', ->
           id: 'main'
           html: """
           <div>
-          <article>
+          <section>
           <span>
           <ul>
             <li>Hello world<ul>
@@ -379,7 +380,7 @@ describe 'Flatten component', ->
             <li>Foo bar</li>
           </ul>
           </span>
-          </article>
+          </section>
           </div>
           """
         ]
@@ -548,3 +549,32 @@ describe 'Flatten component', ->
         done()
       ins.send sent
 
+  describe 'flattening content with Article elements', ->
+    it 'should produce an article block', (done) ->
+      if console.timeEnd
+        console.time 'flattening HTML structures'
+      sent =
+        path: 'foo/bar.html'
+        items: [
+          id: 'http://html5doctor.com/the-article-element/'
+          html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>"
+        ]
+
+      expected =
+        path: 'foo/bar.html'
+        items: [
+          id: 'http://html5doctor.com/the-article-element/'
+          content: [
+            type: 'article'
+            html: "<h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p>"
+            title: 'Apple'
+            caption: 'The <b>apple</b> is the pomaceous fruit of the apple tree...'
+          ]
+        ]
+
+      out.on 'data', (data) ->
+        if console.timeEnd
+          console.timeEnd 'flattening HTML structures'
+        chai.expect(data).to.eql expected
+        done()
+      ins.send sent
