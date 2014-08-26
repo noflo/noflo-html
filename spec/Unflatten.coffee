@@ -30,6 +30,7 @@ describe 'Unflatten component', ->
         <p>Hello world, <b>this</b> is some text</p>
         <video src="http://foo.bar/"></video>
         <img src="http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png">
+        <article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>
         """
 
       sent =
@@ -45,6 +46,11 @@ describe 'Unflatten component', ->
           type: 'image'
           src: 'http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png'
           html: '<img src="http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png">'
+        ,
+          type: 'article'
+          html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>"
+          title: 'Apple'
+          caption: 'The <b>apple</b> is the pomaceous fruit of the apple tree...'
         ]
 
       out.on 'data', (data) ->

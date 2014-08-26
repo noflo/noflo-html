@@ -566,7 +566,7 @@ describe 'Flatten component', ->
           id: 'http://html5doctor.com/the-article-element/'
           content: [
             type: 'article'
-            html: "<h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p>"
+            html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>"
             title: 'Apple'
             caption: 'The <b>apple</b> is the pomaceous fruit of the apple tree...'
           ]

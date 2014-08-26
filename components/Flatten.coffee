@@ -257,7 +257,7 @@ class Flatten extends noflo.AsyncComponent
       return '' if tag.data.trim() is ''
       return '' if tag.data is '&nbsp;'
       return tag.data
-    if tag.name in @structuralTags or tag.name in ['figcaption', 'article']
+    if tag.name in @structuralTags or tag.name in ['figcaption']
       return '' unless tag.children
       content = ''
       for child in tag.children
