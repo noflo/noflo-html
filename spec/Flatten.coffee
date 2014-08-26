@@ -557,7 +557,7 @@ describe 'Flatten component', ->
         path: 'foo/bar.html'
         items: [
           id: 'http://html5doctor.com/the-article-element/'
-          html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>"
+          html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article><article><h1>Red Delicious</h1><img src=\"http://www.theproducemom.com/wp-content/uploads/2012/01/red_delicious_jpg.jpg\"><p>These bright red apples are the most common found in many supermarkets...</p></article>"
         ]
 
       expected =
@@ -569,6 +569,12 @@ describe 'Flatten component', ->
             html: "<article><h1>Apple</h1><p>The <b>apple</b> is the pomaceous fruit of the apple tree...</p></article>"
             title: 'Apple'
             caption: 'The <b>apple</b> is the pomaceous fruit of the apple tree...'
+          ,
+            type: 'article'
+            html: "<article><h1>Red Delicious</h1><img src=\"http://www.theproducemom.com/wp-content/uploads/2012/01/red_delicious_jpg.jpg\"><p>These bright red apples are the most common found in many supermarkets...</p></article>"
+            title: 'Red Delicious'
+            caption: 'These bright red apples are the most common found in many supermarkets...'
+            src: 'http://www.theproducemom.com/wp-content/uploads/2012/01/red_delicious_jpg.jpg'
           ]
         ]
 

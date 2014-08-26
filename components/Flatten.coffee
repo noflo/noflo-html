@@ -163,6 +163,7 @@ class Flatten extends noflo.AsyncComponent
         return results unless tag.children
         caption = null
         title = null
+        src = null
         for child in tag.children
           if child.name is 'h1' and not title
             title = ''
@@ -170,11 +171,14 @@ class Flatten extends noflo.AsyncComponent
           if child.name is 'p' and not caption
             caption = ''
             caption += @tagToHtml c for c in child.children
+          if child.name is 'img' and child.attribs.src and not src
+            src = @normalizeUrl child.attribs.src, id
          article =
            type: 'article'
            html: @tagToHtml tag, id
          article.title = title if title
          article.caption = caption if caption
+         article.src = src if src
          results.push article
       when 'p', 'em', 'small'
         return unless tag.children
