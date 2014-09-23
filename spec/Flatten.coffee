@@ -584,3 +584,35 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+
+  describe 'flattening a full XHTML file', ->
+    return if noflo.isBrowser()
+    it 'should produce flattened contents', (done) ->
+      fs = require 'fs'
+      path = require 'path'
+      if console.timeEnd
+        console.time 'flattening HTML structures'
+      sourcePath = path.resolve __dirname, './fixtures/tika.xhtml'
+      sent =
+        path: 'foo/bar.html'
+        html: fs.readFileSync sourcePath, 'utf-8'
+
+      out.on 'data', (data) ->
+        console.log data
+        images = data.content.filter (block) -> block.type is 'image'
+        chai.expect(images.length).to.equal 6
+        srcs = images.map (image) -> image.src
+        chai.expect(srcs).to.eql [
+          'image1.jpg'
+          'image2.jpg'
+          'image3.jpg'
+          'image4.jpg'
+          'image5.jpg'
+          'image6.jpg'
+        ]
+        texts = data.content.filter (block) -> block.type is 'text'
+        chai.expect(texts.length).to.equal 4
+        if console.timeEnd
+          console.timeEnd 'flattening HTML structures'
+        done()
+      ins.send sent
