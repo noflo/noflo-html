@@ -5,6 +5,11 @@ uri = require 'URIjs'
 class Flatten extends noflo.AsyncComponent
   icon: 'bars'
   structuralTags: [
+    '?xml'
+    'html'
+    'head'
+    'title'
+    'body'
     'div'
     'section'
     'span'
@@ -240,11 +245,12 @@ class Flatten extends noflo.AsyncComponent
           html: @tagToHtml tag, id
       when 'a'
         return results unless tag.children
-        if tag.attribs
+        if tag.attribs?.href
           tag.attribs.href = @normalizeUrl tag.attribs.href, id
         normalizedChild = @normalizeTag tag.children[0], id
         return results unless normalizedChild.length
-        normalizedChild[0].html = @tagToHtml tag, id
+        if tag.attribs?.href
+          normalizedChild[0].html = @tagToHtml tag, id
         return normalizedChild
       # Tags that we ignore entirely
       when 'form', 'input', 'textarea', 'aside', 'button', 'meta', 'script', 'hr', 'br'
