@@ -274,13 +274,13 @@ describe 'Flatten component', ->
         items: [
           id: 'main'
           content: [
-            type: 'headline'
+            type: 'h1'
             html: '<h1>Hello World</h1>'
           ,
             type: 'text'
             html: '<p>Some text</p>'
           ,
-            type: 'headline'
+            type: 'h2'
             html: '<h2>Foo bar</h2>'
           ]
         ]

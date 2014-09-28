@@ -221,7 +221,7 @@ class Flatten extends noflo.AsyncComponent
           results.push n for n in normalized
       when 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
         results.push
-          type: 'headline'
+          type: tag.name
           html: @tagToHtml tag, id
       when 'pre'
         results.push
