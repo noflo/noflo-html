@@ -30,6 +30,7 @@ describe 'Flatten component', ->
         <p>Hello world, <b>this</b> is some text</p>
         <video src="http://foo.bar"></video>
         <p class='pagination-centered'><img class='img-polaroid' src='http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png' /><img /></p>
+        <p><button data-uuid="71bfc2e0-4a96-11e4-916c-0800200c9a66" data-role="cta" data-verb="purchase" data-price="96">Buy now</button></p>
         """
 
       expected =
@@ -45,6 +46,12 @@ describe 'Flatten component', ->
           type: 'image'
           src: 'http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png'
           html: '<img src="http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png">'
+        ,
+          type: 'cta'
+          uuid: '71bfc2e0-4a96-11e4-916c-0800200c9a66'
+          verb: 'purchase'
+          price: '96'
+          html: '<button data-uuid="71bfc2e0-4a96-11e4-916c-0800200c9a66" data-role="cta" data-verb="purchase" data-price="96">Buy now</button>'
         ]
 
       out.on 'data', (data) ->
@@ -64,6 +71,7 @@ describe 'Flatten component', ->
           <p>Hello world, <b>this</b> is some text</p>
           <figure><iframe frameborder="0" src="http://www.youtube.com/embed/YzC7MfCtkzo"></iframe></figure>
           <figure><img alt=\"An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.\" src=\"http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png\">An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.</figure>
+          <figure><div><img src=\"http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1\"></div>\n<figcaption><small>Tom Turley / <a href=\"http://www.gettyimages.com/\">Getty Images</a></small></figcaption></figure>
           """
         ]
 
@@ -82,6 +90,11 @@ describe 'Flatten component', ->
             type: 'image'
             src: 'http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png'
             html: '<figure><img alt=\"An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.\" src=\"http://cnet3.cbsistatic.com/hub/i/r/2013/09/10/92df7aec-6ddf-11e3-913e-14feb5ca9861/resize/620x/929f354f66ca3b99ab045f6f15a6693a/noflo-jekyll.png\">An illustration of NoFlo used to create a flow-based version of the Jekyll tool for converting text into content suitable for Web publishing.</figure>'
+          ,
+            type: 'image'
+            src: 'http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1'
+            caption: 'Tom Turley / <a href="http://www.gettyimages.com/">Getty Images</a>'
+            html: "<figure><div><img src=\"http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1\"></div>\n<figcaption><small>Tom Turley / <a href=\"http://www.gettyimages.com/\">Getty Images</a></small></figcaption></figure>"
           ]
         ]
 

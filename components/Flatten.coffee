@@ -19,6 +19,7 @@ class Flatten extends noflo.AsyncComponent
     'br'
     'meta'
     's'
+    'small'
   ]
   ignoredAttribs: [
     'id'
@@ -197,6 +198,9 @@ class Flatten extends noflo.AsyncComponent
           else if child.name is 'img'
             normalized = normalized.concat @normalizeTag child, id
             remove.push child
+          else if child.name is 'button'
+            normalized = normalized.concat @normalizeTag child, id
+            remove.push child
           else if child.name is 'a'
             normalizedChild = @normalizeTag child, id
             for n in normalizedChild
@@ -252,8 +256,19 @@ class Flatten extends noflo.AsyncComponent
         if tag.attribs?.href
           normalizedChild[0].html = @tagToHtml tag, id
         return normalizedChild
+      when 'button'
+        return results unless tag.attribs?['data-role']
+        normalized = {}
+        for key, val of tag.attribs
+          continue unless key.indexOf('data-') is 0
+          attrib = key.substr 5
+          attrib = 'type' if attrib is 'role'
+          normalized[attrib] = val
+        normalized.html = @tagToHtml tag, id
+        results.push normalized
+        return results
       # Tags that we ignore entirely
-      when 'form', 'input', 'textarea', 'aside', 'button', 'meta', 'script', 'hr', 'br'
+      when 'form', 'input', 'textarea', 'aside', 'meta', 'script', 'hr', 'br'
         return results
       else
         results.push
