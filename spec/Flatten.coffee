@@ -94,7 +94,7 @@ describe 'Flatten component', ->
             type: 'image'
             src: 'http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1'
             caption: 'Tom Turley / <a href="http://www.gettyimages.com/">Getty Images</a>'
-            html: "<figure><div><img src=\"http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1\"></div>\n<figcaption><small>Tom Turley / <a href=\"http://www.gettyimages.com/\">Getty Images</a></small></figcaption></figure>"
+            html: "<figure><img src=\"http://timenewsfeed.files.wordpress.com/2012/02/slanglol.jpg?w=480&amp;h=320&amp;crop=1\"><figcaption>Tom Turley / <a href=\"http://www.gettyimages.com/\">Getty Images</a></figcaption></figure>"
           ]
         ]
 

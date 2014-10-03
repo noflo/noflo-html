@@ -148,6 +148,11 @@ class Flatten extends noflo.AsyncComponent
         src = undefined
         caption = null
         for child in tag.children
+          if child.name in @structuralTags
+            normalized = @normalizeTag child, id
+            for n in normalized
+              if n.type is 'image'
+                src = n.src
           if child.name is 'iframe'
             return @normalizeTag child, id
           if child.name is 'code'
@@ -158,11 +163,11 @@ class Flatten extends noflo.AsyncComponent
               src = child.attribs.src
             type = 'image'
           if child.name is 'figcaption'
-            caption = @tagToHtml child, id
+            caption = @tagToHtml child, id, false
         img =
           type: type
           src: src
-          html: @tagToHtml tag, id
+          html: @tagToHtml tag, id, true
         img.caption = caption if caption
         results.push img
       when 'article'
@@ -276,17 +281,17 @@ class Flatten extends noflo.AsyncComponent
           html: @tagToHtml tag, id
     results
 
-  tagToHtml: (tag, id) ->
+  tagToHtml: (tag, id, keepCaption = false) ->
     if tag.type is 'text'
       return '' unless tag.data
       return '' if tag.data.trim() is ''
       return '' if tag.data is '&nbsp;'
       return tag.data
-    if tag.name in @structuralTags or tag.name in ['figcaption']
+    if tag.name in @structuralTags or (tag.name in ['figcaption'] and not keepCaption)
       return '' unless tag.children
       content = ''
       for child in tag.children
-        content += @tagToHtml child, id
+        content += @tagToHtml child, id, keepCaption
       return content
 
     attributes = ''
@@ -302,7 +307,7 @@ class Flatten extends noflo.AsyncComponent
     if tag.children
       content = ''
       for child in tag.children
-        content += @tagToHtml child, id
+        content += @tagToHtml child, id, keepCaption
       html += content
     if tag.name isnt 'img'
       html += "</#{tag.name}>"
