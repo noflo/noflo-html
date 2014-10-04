@@ -27,6 +27,7 @@ describe 'Flatten component', ->
       sent =
         id: 'main'
         html: """
+        <script>alert('foo');</script>
         <p>Hello world, <b>this</b> is some text</p>
         <video src="http://foo.bar"></video>
         <p class='pagination-centered'><img class='img-polaroid' src='http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png' /><img /></p>
