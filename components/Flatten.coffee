@@ -22,13 +22,21 @@ class Flatten extends noflo.AsyncComponent
     'small'
   ]
   ignoredAttribs: [
-    'id'
-    'class'
     'data-query-source'
     'data-expanded-url'
-    'target'
-    'rel'
-    'dir'
+  ]
+  allowedAttribs: [
+    'src'
+    'href'
+    'title'
+    'alt'
+    'webkitallowfullscreen'
+    'mozallowfullscreen'
+    'allowfullscreen'
+    'width'
+    'height'
+    'scrolling'
+    'frameborder'
   ]
   constructor: ->
     @inPorts =
@@ -281,6 +289,13 @@ class Flatten extends noflo.AsyncComponent
           html: @tagToHtml tag, id
     results
 
+  isAttributeAllowed: (attribute) ->
+    if attribute.substr(0, 5) is 'data-'
+      return false if attribute in @ignoredAttribs
+      return true
+    return false unless attribute in @allowedAttribs
+    true
+
   tagToHtml: (tag, id, keepCaption = false) ->
     if tag.type is 'text'
       return '' unless tag.data
@@ -297,7 +312,7 @@ class Flatten extends noflo.AsyncComponent
     attributes = ''
     if tag.attribs
       for attrib, val of tag.attribs
-        continue if attrib in @ignoredAttribs
+        continue unless @isAttributeAllowed attrib
         if tag.name is 'a' and attrib is 'href'
           val = @normalizeUrl val, id
         if tag.name is 'img' and attrib is 'src'
