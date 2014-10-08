@@ -30,6 +30,10 @@ describe 'Flatten component', ->
         <script>alert('foo');</script>
         <p>Hello world, <b>this</b> is some text</p>
         <video src="http://foo.bar"></video>
+        <video autoplay="true" loop="true" controls="false">
+          <source type="video/mp4" src="//s3-us-west-2.amazonaws.com/cdn.thegrid.io/posts/cta-ui-bg.mp4"/>
+          <source type="video/webm" src="//s3-us-west-2.amazonaws.com/cdn.thegrid.io/posts/cta-ui-bg.webm"/>
+        </video>
         <p class='pagination-centered'><img class='img-polaroid' src='http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png' /><img /></p>
         <p><button data-uuid="71bfc2e0-4a96-11e4-916c-0800200c9a66" data-role="cta" data-verb="purchase" data-price="96">Buy now</button></p>
         """
@@ -43,6 +47,9 @@ describe 'Flatten component', ->
           type: 'video'
           video: 'http://foo.bar/'
           html: '<video src="http://foo.bar/"></video>'
+        ,
+          type: 'video'
+          html: '<video autoplay="true" loop="true" controls="false"><source type="video/mp4" src="//s3-us-west-2.amazonaws.com/cdn.thegrid.io/posts/cta-ui-bg.mp4"><source type="video/webm" src="//s3-us-west-2.amazonaws.com/cdn.thegrid.io/posts/cta-ui-bg.webm"></video>'
         ,
           type: 'image'
           src: 'http://blog.interfacevision.com/assets/img/posts/example_visual_language_minecraft_01.png'

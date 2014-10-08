@@ -37,6 +37,10 @@ class Flatten extends noflo.AsyncComponent
     'height'
     'scrolling'
     'frameborder'
+    'autoplay'
+    'loop'
+    'controls'
+    'type'
   ]
   constructor: ->
     @inPorts =
@@ -116,11 +120,12 @@ class Flatten extends noflo.AsyncComponent
 
     switch tag.name
       when 'video'
-        tag.attribs.src = @normalizeUrl tag.attribs.src, id
-        results.push
+        tag.attribs.src = @normalizeUrl tag.attribs.src, id if tag.attribs.src
+        video =
           type: 'video'
-          video: tag.attribs.src
           html: @tagToHtml tag, id
+        video.video = tag.attribs.src if tag.attribs.src
+        results.push video
       when 'iframe'
         return results unless tag.attribs
         tag.attribs.src = @normalizeUrl tag.attribs.src, id
@@ -324,7 +329,7 @@ class Flatten extends noflo.AsyncComponent
       for child in tag.children
         content += @tagToHtml child, id, keepCaption
       html += content
-    if tag.name isnt 'img'
+    if tag.name isnt 'img' and tag.name isnt 'source'
       html += "</#{tag.name}>"
     return html
 
