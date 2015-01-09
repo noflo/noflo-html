@@ -97,7 +97,7 @@ class Flatten extends noflo.AsyncComponent
   normalizeUrl: (url, base) ->
     return url unless base
     parsed = uri url
-    return url if parsed.protocol() in ['javascript', 'mailto']
+    return url if parsed.protocol() in ['javascript', 'mailto', 'data']
     abs = parsed.absoluteTo(base).toString()
     abs
 
