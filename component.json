@@ -7,8 +7,7 @@
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
-    "bergie/node-htmlparser": "published",
-    "medialize/URI.js": "*"
+    "the-grid/html-flatten": "*"
   },
   "scripts": [
     "index.js",

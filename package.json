@@ -2,7 +2,7 @@
   "name": "noflo-html",
   "description": "HTML handling components for the NoFlo flow-based programming environment",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
-  "version": "0.0.15",
+  "version": "0.0.14",
   "licenses": [
     {
       "type": "MIT",
@@ -19,8 +19,7 @@
   "dependencies": {
     "noflo": "0.5.x",
     "cheerio": "^0.17.0",
-    "htmlparser": "1.7.x",
-    "URIjs": "^1.13.1"
+    "html-flatten": "^0.1.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
