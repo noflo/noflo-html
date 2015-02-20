@@ -3,12 +3,11 @@
   "description": "HTML components for NoFlo",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
   "repo": "noflo/noflo-html",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "keywords": [],
   "dependencies": {
     "noflo/noflo": "*",
-    "bergie/node-htmlparser": "published",
-    "medialize/URI.js": "*"
+    "the-grid/html-flatten": "*"
   },
   "scripts": [
     "index.js",
