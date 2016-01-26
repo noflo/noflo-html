@@ -17,7 +17,8 @@ exports.getComponent = ->
     async: true
     forwardGroups: true
   , (data, groups, out, callback) ->
-    Flattener.processPage data, (err, page) ->
+    f = new Flattener
+    f.processPage data, (err, page) ->
       return callback err if err
       out.send page
       do callback
