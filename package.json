@@ -17,23 +17,23 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "0.5.x",
-    "cheerio": "^0.17.0",
+    "noflo": "0.6.0",
+    "cheerio": "^0.20.0",
     "html-flatten": "^0.2.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-contrib-coffee": "^1.0.0",
     "grunt-noflo-manifest": "^0.1.11",
     "grunt-noflo-browser": "^0.1.2",
-    "grunt-contrib-uglify": "^0.5.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "chai": "^1.9.1",
-    "grunt-contrib-nodeunit": "^0.4.1",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "chai": "^3.5.0",
+    "grunt-contrib-nodeunit": "^1.0.0",
     "grunt-cafe-mocha": "^0.1.12",
     "grunt-coffeelint": "~0.0.10",
-    "grunt-mocha-phantomjs": "^0.5.0",
-    "mocha": "^1.20.1"
+    "grunt-mocha-phantomjs": "^3.0.0",
+    "mocha": "^2.4.5"
   },
   "noflo": {
     "icons": "html5",
