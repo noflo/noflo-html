@@ -17,7 +17,7 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "0.5.x",
+    "noflo": "0.6.1",
     "cheerio": "^0.17.0",
     "html-flatten": "^0.2.0"
   },
