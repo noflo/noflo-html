@@ -69,9 +69,6 @@ module.exports = ->
             value: 80
             level: 'ignore'
 
-  # Development helpers
-  @loadNpmTasks 'grunt-noflo-manifest'
-
   # Grunt plugins used for testing
   @loadNpmTasks 'grunt-mocha-test'
   @loadNpmTasks 'grunt-coffeelint'
