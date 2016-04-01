@@ -15,6 +15,7 @@ describe 'Unflatten component', ->
     out = noflo.internalSocket.createSocket()
     c.inPorts.in.attach ins
     c.outPorts.out.attach out
+    c.inPorts.in.nodeInstance = c
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -56,4 +57,5 @@ describe 'Unflatten component', ->
       out.on 'data', (data) ->
         chai.expect(data).to.eql expected
         done()
-      ins.send sent
+
+      ins.post new noflo.IP 'data', sent

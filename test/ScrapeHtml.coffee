@@ -1,52 +1,56 @@
 scrape = require "../components/ScrapeHtml"
 socket = require('noflo').internalSocket
+chai = require 'chai'
+expect = chai.expect
 
 setupComponent = ->
-    c = scrape.getComponent()
-    ins = socket.createSocket()
-    out = socket.createSocket()
-    c.inPorts.in.attach ins
-    c.outPorts.out.attach out
-    return [c, ins, out]
+  c = scrape.getComponent()
+  ins = socket.createSocket()
+  out = socket.createSocket()
+  c.inPorts.in.attach ins
+  c.outPorts.out.attach out
+  [c, ins, out]
 
-exports["test selector then html"] = (test) ->
+describe 'Scaping HTML', ->
+  it 'test selector then html', (done) ->
     [c, ins, out] = setupComponent()
     s = socket.createSocket()
     c.inPorts.textselector.attach s
-    expect = ["bar","baz"]
+    expectdata = ["bar","baz"]
     out.once "begingroup", (group) ->
-        test.fail "should not get groups without element ids"
+      fail "should not get groups without element ids"
     out.on "data", (data) ->
-        test.equal data, expect.shift()
-        test.done() if expect.length == 0
+      expect(data).to.equal expectdata.shift()
+      done() if expectdata.length == 0
+
     s.send "p.test"
     s.disconnect()
     ins.send '<div><p>foo</p><p class="test">bar</p><p class="test">baz</p></div>'
     ins.disconnect()
 
-exports["test html then selector"] = (test) ->
+  it 'test html then selector', (done) ->
     [c, ins, out] = setupComponent()
     s = socket.createSocket()
     c.inPorts.textselector.attach s
-    expect = ["bar","baz"]
+    expectdata = ["bar","baz"]
     out.on "data", (data) ->
-        test.equal data, expect.shift()
-        test.done() if expect.length == 0
+      expect(data).to.equal expectdata.shift()
+      done() if expectdata.length == 0
     ins.send '<div><p>foo</p><p class="test">bar</p><p class="test">baz</p></div>'
     ins.disconnect()
     s.send "p.test"
     s.disconnect()
 
-exports["test ignore"] = (test) ->
+  it 'test ignore', (done) ->
     [c, ins, out] = setupComponent()
     s = socket.createSocket()
     i = socket.createSocket()
     c.inPorts.textselector.attach s
     c.inPorts.ignoreselector.attach i
-    expect = ["foo"]
+    expectdata = ["foo"]
     out.on "data", (data) ->
-        test.equal data, expect.shift()
-        test.done() if expect.length == 0
+      expect(data).to.equal expectdata.shift()
+      done() if expectdata.length == 0
     i.send ".noise"
     i.send "#crap"
     i.disconnect()
@@ -55,25 +59,20 @@ exports["test ignore"] = (test) ->
     s.send "p.test"
     s.disconnect()
 
-exports["test group by element id"] = (test) ->
+  it 'test group by element id', (done) ->
     [c, ins, out] = setupComponent()
     s = socket.createSocket()
     c.inPorts.textselector.attach s
-    expectevent = "begingroup"
     expectgroup = ["a","b"]
-    out.on "begingroup", (group) ->
-        test.equal "begingroup", expectevent
-        test.equal group, expectgroup.shift()
-        expectevent = "data"
     expectdata = ["bar","baz"]
-    out.on "data", (data) ->
-        test.equal "data", expectevent
-        test.equal data, expectdata.shift()
-        expectevent = "endgroup"
-    out.on "endgroup", ->
-        test.equal "endgroup", expectevent
-        expectevent = "begingroup"
-        test.done() if expectgroup.length == 0
+    chunks = []
+    out.on "ip", (ip) ->
+      if ip.type is 'data'
+        chunks.push ip.data
+        expect(ip.groups.join("")).to.equal expectgroup.shift()
+      if ip.type is 'closeBracket'
+        done() if expectgroup.length == 0
+
     s.send "p.test"
     s.disconnect()
     ins.send '<div><p>foo</p><p id="a" class="test">bar</p><p id="b" class="test">baz</p></div>'

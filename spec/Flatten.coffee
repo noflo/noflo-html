@@ -65,7 +65,8 @@ describe 'Flatten component', ->
       out.on 'data', (data) ->
         chai.expect(data).to.eql expected
         done()
-      ins.send sent
+
+      ins.post new noflo.IP 'data', sent
 
   describe 'flattening HTML structures', ->
     it 'should be able to find a video and an image inside figures', (done) ->
@@ -111,7 +112,8 @@ describe 'Flatten component', ->
           console.timeEnd 'flattening HTML structures'
         chai.expect(data).to.eql expected
         done()
-      ins.send sent
+
+      ins.post new noflo.IP 'data', sent
 
     it 'should be able to find Embed.ly videos and audios', (done) ->
       if console.timeEnd
@@ -150,7 +152,8 @@ describe 'Flatten component', ->
           console.timeEnd 'flattening HTML structures'
         chai.expect(data).to.eql expected
         done()
-      ins.send sent
+
+      ins.post new noflo.IP 'data', sent
 
     it 'should be able to find images inside paragraphs', (done) ->
       if console.timeEnd
@@ -187,4 +190,5 @@ describe 'Flatten component', ->
           console.timeEnd 'flattening HTML structures'
         chai.expect(data).to.eql expected
         done()
-      ins.send sent
+
+      ins.post new noflo.IP 'data', sent
