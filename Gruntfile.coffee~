@@ -100,5 +100,6 @@ module.exports = ->
       @task.run 'noflo_browser'
       @task.run 'mocha_phantomjs'
 
+
   # Our local tasks
   @registerTask 'default', ['test']
