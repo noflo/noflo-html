@@ -20,6 +20,7 @@ module.exports = ->
         output: 'spec/result.xml'
         reporter: 'spec'
       all: ['spec/runner.html']
+      failWithOutput: true
 
     # Browser build of NoFlo
     noflo_browser:

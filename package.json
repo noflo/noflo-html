@@ -21,6 +21,9 @@
     "cheerio": "^0.17.0",
     "html-flatten": "^0.2.0"
   },
+  "keywords": [
+    "noflo"
+  ],
   "devDependencies": {
     "chai": "^3.3.0",
     "coffee-script": "^1.10.0",
