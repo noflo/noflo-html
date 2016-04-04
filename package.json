@@ -12,9 +12,10 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "0.7.x",
     "cheerio": "^0.17.0",
-    "html-flatten": "^0.2.0"
+    "grunt-noflo-manifest": "^0.1.11",
+    "html-flatten": "^0.2.0",
+    "noflo": "0.7.x"
   },
   "keywords": [
     "noflo"

@@ -39,7 +39,7 @@ module.exports = ->
     # BDD tests on Node.js
     mochaTest:
       nodejs:
-        src: ['spec/*.coffee', 'test/*.coffee']
+        src: ['spec/*.coffee']
         options:
           reporter: 'spec'
           timeout: 10000
@@ -54,16 +54,9 @@ module.exports = ->
           max_line_length:
             value: 80
             level: 'ignore'
-      routes:
+      spec:
         files:
-          src: ['routes/*.coffee']
-        options:
-          max_line_length:
-            value: 80
-            level: 'ignore'
-      root:
-        files:
-          src: ['*.coffee']
+          src: ['spec/*.coffee']
         options:
           max_line_length:
             value: 80
@@ -72,15 +65,14 @@ module.exports = ->
   # Grunt plugins used for testing
   @loadNpmTasks 'grunt-mocha-test'
   @loadNpmTasks 'grunt-coffeelint'
+  @loadNpmTasks 'grunt-cafe-mocha'
+  @loadNpmTasks 'grunt-mocha-phantomjs'
 
   # Grunt plugins used for building
   @loadNpmTasks 'grunt-contrib-coffee'
   @loadNpmTasks 'grunt-noflo-browser'
   @loadNpmTasks 'grunt-contrib-uglify'
-
-  # Grunt plugins used for testing
-  @loadNpmTasks 'grunt-cafe-mocha'
-  @loadNpmTasks 'grunt-mocha-phantomjs'
+  @loadNpmTasks 'grunt-noflo-manifest'
 
   # Our local tasks
   @registerTask 'build', 'Build NoFlo for the chosen target platform', (target = 'all') =>
