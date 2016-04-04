@@ -1,5 +1,5 @@
-noflo = require "noflo"
-cheerio = require "cheerio"
+noflo = require 'noflo'
+cheerio = require 'cheerio'
 
 # @runtime noflo-nodejs
 
@@ -27,18 +27,26 @@ exports.getComponent = ->
   c.outPorts.add 'out',
     datatype: 'string'
 
-  noflo.helpers.WirePattern c,
-    in: ['in', 'textselector']
-    out: 'out'
-    forwardGroups: true
-  , (data, groups, out) ->
-    $ = cheerio.load data.in
+  c.process (input, output) ->
+    return unless input.has 'in', 'textselector'
+    [data, textselector] = input.getData 'in', 'textselector'
+    return unless input.ip.type is 'data'
+
+    $ = cheerio.load data
     $(ignore).remove() for ignore in c.ignoreSelectors
-    $(data.textselector).each (i,e) ->
+    $(textselector).each (i,e) ->
       o = $(e)
       id = o.attr "id"
-      out.beginGroup id if id?
-      out.send decode o.text()
-      out.endGroup() if id?
 
-  c
+      if id?
+        output.send
+          out: new noflo.IP 'openBracket', id
+
+      ip = new noflo.IP 'data', decode(o.text())
+      ip.groups = [id]
+      output.send
+        out: ip
+
+      if id?
+        output.send
+          out: new noflo.IP 'closeBracket', id

@@ -9,14 +9,12 @@ exports.getComponent = ->
   c.outPorts.add 'out',
     datatype: 'object'
 
-  noflo.helpers.WirePattern c,
-    in: 'in'
-    out: 'out'
-    forwardGroups: true
-  , (data, groups, out) ->
+  c.process (input, output) ->
+    return unless input.has 'in'
+    data = input.getData 'in'
+    return unless input.ip.type is 'data'
+
     data.content = [] unless data.content
     data.html = data.content.map((block) -> block.html).join '\n'
     delete data.content
-    out.send data
-
-  c
+    output.sendDone out: data
