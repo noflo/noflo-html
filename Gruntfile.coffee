@@ -49,15 +49,12 @@ module.exports = ->
           require: 'coffee-script/register'
           grep: process.env.TESTS
 
-    # Legacy tests on Node.js
-    nodeunit:
-      all: ['test/*.coffee']
-
     # BDD tests on browser
     mocha_phantomjs:
       options:
         output: 'spec/result.xml'
         reporter: 'spec'
+        failWithOutput: true
       all: ['spec/runner.html']
 
     # Coding standards
@@ -76,7 +73,6 @@ module.exports = ->
   # Grunt plugins used for testing
   @loadNpmTasks 'grunt-contrib-watch'
   @loadNpmTasks 'grunt-mocha-test'
-  @loadNpmTasks 'grunt-contrib-nodeunit'
   @loadNpmTasks 'grunt-mocha-phantomjs'
   @loadNpmTasks 'grunt-coffeelint'
 
@@ -94,7 +90,6 @@ module.exports = ->
     @task.run 'noflo_manifest'
     if target is 'all' or target is 'nodejs'
       @task.run 'mochaTest'
-      @task.run 'nodeunit'
     if target is 'all' or target is 'browser'
       @task.run 'noflo_browser'
       @task.run 'mocha_phantomjs'
