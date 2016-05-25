@@ -43,6 +43,7 @@ describe 'Flatten component', ->
         content: [
           type: 'text'
           html: '<p>Hello world, <b>this</b> is some text</p>'
+          text: 'Hello world, this is some text'
         ,
           type: 'video'
           video: 'http://foo.bar/'
@@ -90,6 +91,7 @@ describe 'Flatten component', ->
           content: [
             type: 'text'
             html: '<p>Hello world, <b>this</b> is some text</p>'
+            text: 'Hello world, this is some text'
           ,
             type: 'video'
             video: 'http://www.youtube.com/embed/YzC7MfCtkzo'
@@ -134,14 +136,15 @@ describe 'Flatten component', ->
           content: [
             type: 'text'
             html: '<p>Hello world, <b>this</b> is some text</p>'
+            text: 'Hello world, this is some text'
           ,
             type: 'video'
             video: '//cdn.embedly.com/widgets/media.html?src=http%3A%2F%2Fwww.youtube.com%2Fembed%2F8Dos61_6sss%3Ffeature%3Doembed&url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8Dos61_6sss&image=http%3A%2F%2Fi.ytimg.com%2Fvi%2F8Dos61_6sss%2Fhqdefault.jpg&key=internal&type=text%2Fhtml&schema=youtube'
-            html: '<iframe src=\"//cdn.embedly.com/widgets/media.html?src=http%3A%2F%2Fwww.youtube.com%2Fembed%2F8Dos61_6sss%3Ffeature%3Doembed&url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8Dos61_6sss&image=http%3A%2F%2Fi.ytimg.com%2Fvi%2F8Dos61_6sss%2Fhqdefault.jpg&key=internal&type=text%2Fhtml&schema=youtube\" width=\"500\" height=\"281\" scrolling=\"no\" frameborder=\"0\" allowfullscreen="allowfullscreen"></iframe>'
+            html: '<iframe src=\"//cdn.embedly.com/widgets/media.html?src=http%3A%2F%2Fwww.youtube.com%2Fembed%2F8Dos61_6sss%3Ffeature%3Doembed&url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8Dos61_6sss&image=http%3A%2F%2Fi.ytimg.com%2Fvi%2F8Dos61_6sss%2Fhqdefault.jpg&key=internal&type=text%2Fhtml&schema=youtube\" width=\"500\" height=\"281\" scrolling=\"no\" frameborder=\"0\" allowfullscreen></iframe>'
           ,
             type: 'audio'
             video: '//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fw.soundcloud.com%2Fplayer%2F%3Fvisual%3Dtrue%26url%3Dhttp%253A%252F%252Fapi.soundcloud.com%252Ftracks%252F153760638%26show_artwork%3Dtrue&url=http%3A%2F%2Fsoundcloud.com%2Fsupersquaremusic%2Fanywhere-everywhere-super-square-original&image=http%3A%2F%2Fi1.sndcdn.com%2Fartworks-000082002645-fhibur-t500x500.jpg%3Fe76cf77&key=internal&type=text%2Fhtml&schema=soundcloud'
-            html: '<iframe src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fw.soundcloud.com%2Fplayer%2F%3Fvisual%3Dtrue%26url%3Dhttp%253A%252F%252Fapi.soundcloud.com%252Ftracks%252F153760638%26show_artwork%3Dtrue&url=http%3A%2F%2Fsoundcloud.com%2Fsupersquaremusic%2Fanywhere-everywhere-super-square-original&image=http%3A%2F%2Fi1.sndcdn.com%2Fartworks-000082002645-fhibur-t500x500.jpg%3Fe76cf77&key=internal&type=text%2Fhtml&schema=soundcloud\" width=\"500\" height=\"500\" scrolling=\"no\" frameborder=\"0\" allowfullscreen="allowfullscreen"></iframe>'
+            html: '<iframe src=\"//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fw.soundcloud.com%2Fplayer%2F%3Fvisual%3Dtrue%26url%3Dhttp%253A%252F%252Fapi.soundcloud.com%252Ftracks%252F153760638%26show_artwork%3Dtrue&url=http%3A%2F%2Fsoundcloud.com%2Fsupersquaremusic%2Fanywhere-everywhere-super-square-original&image=http%3A%2F%2Fi1.sndcdn.com%2Fartworks-000082002645-fhibur-t500x500.jpg%3Fe76cf77&key=internal&type=text%2Fhtml&schema=soundcloud\" width=\"500\" height=\"500\" scrolling=\"no\" frameborder=\"0\" allowfullscreen></iframe>'
           ]
         ]
 
@@ -172,9 +175,11 @@ describe 'Flatten component', ->
           content: [
             type: 'text'
             html: '<p>Hello world, <b>this</b> is some text</p>'
+            text: 'Hello world, this is some text'
           ,
             type: 'text'
             html: '<p>Another exciting new product is <a href="http://noflojs.org/">NoFlo,</a> a flow-based Javascript programming tool. Developed as the result of a successful Kickstarter campaign (disclosure: I was a backer), it highlights both the dissatisfaction with the currently available tools, and the untapped potential for flow-based programming tools, that could be more easily understood by non-programmers. NoFlo builds upon Node.js to deliver functional apps to the browser. Native output to Android and iOS is in the works.</p>'
+            text: 'Another exciting new product is NoFlo, a flow-based Javascript programming tool. Developed as the result of a successful Kickstarter campaign (disclosure: I was a backer), it highlights both the dissatisfaction with the currently available tools, and the untapped potential for flow-based programming tools, that could be more easily understood by non-programmers. NoFlo builds upon Node.js to deliver functional apps to the browser. Native output to Android and iOS is in the works.'
           ,
             type: 'image'
             src: 'http://netdna.webdesignerdepot.com/uploads/2014/07/0091.jpg'
