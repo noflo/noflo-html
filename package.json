@@ -4,7 +4,9 @@
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
   "version": "0.0.19",
   "license": "MIT",
-  "keywords": ["noflo"],
+  "keywords": [
+    "noflo"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/noflo/noflo-html.git"
@@ -27,7 +29,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "chai": "^3.5.0",
     "grunt-mocha-test": "^0.12.7",
-    "grunt-coffeelint": "^0.0.15",
+    "grunt-coffeelint": "^0.0.16",
     "grunt-mocha-phantomjs": "^3.0.0",
     "mocha": "^1.20.1"
   },
