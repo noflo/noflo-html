@@ -2,7 +2,7 @@
   "name": "noflo-html",
   "description": "HTML handling components for the NoFlo flow-based programming environment",
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "license": "MIT",
   "keywords": ["noflo"],
   "repository": {
@@ -13,7 +13,7 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "~0.5.22",
+    "noflo": "^0.5.22",
     "cheerio": "^0.17.0",
     "html-flatten": "^0.3.0"
   },
