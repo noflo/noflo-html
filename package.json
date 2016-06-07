@@ -4,7 +4,9 @@
   "author": "Ryan Shaw <ryanshaw@unc.edu>",
   "version": "0.0.21",
   "license": "MIT",
-  "keywords": ["noflo"],
+  "keywords": [
+    "noflo"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/noflo/noflo-html.git"
@@ -13,9 +15,10 @@
     "node": ">=0.6.0"
   },
   "dependencies": {
-    "noflo": "0.x >= 0.5",
     "cheerio": "^0.17.0",
-    "html-flatten": "^0.3.0"
+    "clone": "^1.0.2",
+    "html-flatten": "^0.3.0",
+    "noflo": "0.x >= 0.7"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
