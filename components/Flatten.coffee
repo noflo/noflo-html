@@ -1,5 +1,6 @@
 noflo = require 'noflo'
 Flattener = require 'html-flatten'
+clone = require 'clone'
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -11,14 +12,13 @@ exports.getComponent = ->
   c.outPorts.add 'error',
     datatype: 'object'
 
-  noflo.helpers.WirePattern c,
-    in: 'in'
-    out: 'out'
-    async: true
-    forwardGroups: true
-  , (data, groups, out, callback) ->
+  c.process (input, output) ->
+    data = input.get 'in'
+    return unless data.type is 'data'
+    page = clone data.data
+
     f = new Flattener
-    f.processPage data, (err, page) ->
-      return callback err if err
-      out.send page
-      do callback
+    f.processPage page, (err, result) ->
+      return output.sendDone err if err
+      output.sendDone
+        out: result

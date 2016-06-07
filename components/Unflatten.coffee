@@ -1,4 +1,5 @@
 noflo = require 'noflo'
+clone = require 'clone'
 
 exports.getComponent = ->
   c = new noflo.Component
@@ -9,14 +10,16 @@ exports.getComponent = ->
   c.outPorts.add 'out',
     datatype: 'object'
 
-  noflo.helpers.WirePattern c,
-    in: 'in'
-    out: 'out'
-    forwardGroups: true
-  , (data, groups, out) ->
-    data.content = [] unless data.content
-    data.html = data.content.map((block) -> block.html).join '\n'
-    delete data.content
-    out.send data
+  c.process (input, output) ->
+    packet = input.get 'in'
+    return unless packet.type is 'data'
 
-  c
+    page = clone packet.data
+    page.content = [] unless page?.content
+
+    page.html = page.content.map((block) -> block.html).join '\n'
+
+    delete page.content
+
+    output.sendDone
+      out: page
