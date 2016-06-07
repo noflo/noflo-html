@@ -67,6 +67,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
   describe 'flattening HTML structures', ->
     it 'should be able to find a video and an image inside figures', (done) ->
@@ -114,6 +115,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
     it 'should be able to find Embed.ly videos and audios', (done) ->
       if console.timeEnd
@@ -154,6 +156,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
     it 'should be able to find images inside paragraphs', (done) ->
       if console.timeEnd
@@ -193,3 +196,4 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
