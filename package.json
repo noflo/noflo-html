@@ -17,7 +17,7 @@
   "dependencies": {
     "cheerio": "^0.20.0",
     "clone": "^1.0.2",
-    "html-flatten": "^0.3.0",
+    "html-flatten": "^0.3.5",
     "noflo": "0.x >= 0.7"
   },
   "devDependencies": {
