@@ -18,7 +18,7 @@
     "cheerio": "^0.20.0",
     "clone": "^2.0.0",
     "html-flatten": "^0.3.6",
-    "noflo": "0.x >= 0.7"
+    "noflo": "0.7.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
