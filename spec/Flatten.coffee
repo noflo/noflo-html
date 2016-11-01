@@ -59,6 +59,7 @@ describe 'Flatten component', ->
           type: 'cta'
           uuid: '71bfc2e0-4a96-11e4-916c-0800200c9a66'
           verb: 'purchase'
+          label: 'Buy now'
           price: '96'
           html: '<button data-uuid="71bfc2e0-4a96-11e4-916c-0800200c9a66" data-role="cta" data-verb="purchase" data-price="96">Buy now</button>'
         ]
