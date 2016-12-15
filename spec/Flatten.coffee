@@ -1,20 +1,29 @@
 noflo = require 'noflo'
 unless noflo.isBrowser()
-  chai = require 'chai' unless chai
-  Flatten = require '../components/Flatten.coffee'
+  chai = require 'chai'
+  path = require 'path'
+  baseDir = path.resolve __dirname, '../'
 else
-  Flatten = require 'noflo-html/components/Flatten.js'
+  baseDir = 'noflo-html'
 
 describe 'Flatten component', ->
   c = null
   ins = null
   out = null
+  before (done) ->
+    @timeout 4000
+    loader = new noflo.ComponentLoader baseDir
+    loader.load 'html/Flatten', (err, instance) ->
+      return done err if err
+      c = instance
+      ins = noflo.internalSocket.createSocket()
+      c.inPorts.in.attach ins
+      done()
   beforeEach ->
-    c = Flatten.getComponent()
-    ins = noflo.internalSocket.createSocket()
     out = noflo.internalSocket.createSocket()
-    c.inPorts.in.attach ins
     c.outPorts.out.attach out
+  afterEach ->
+    c.outPorts.out.detach out
 
   describe 'when instantiated', ->
     it 'should have an input port', ->
@@ -59,6 +68,7 @@ describe 'Flatten component', ->
           type: 'cta'
           uuid: '71bfc2e0-4a96-11e4-916c-0800200c9a66'
           verb: 'purchase'
+          label: 'Buy now'
           price: '96'
           html: '<button data-uuid="71bfc2e0-4a96-11e4-916c-0800200c9a66" data-role="cta" data-verb="purchase" data-price="96">Buy now</button>'
         ]
@@ -67,6 +77,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
   describe 'flattening HTML structures', ->
     it 'should be able to find a video and an image inside figures', (done) ->
@@ -114,6 +125,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
     it 'should be able to find Embed.ly videos and audios', (done) ->
       if console.timeEnd
@@ -154,6 +166,7 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
 
     it 'should be able to find images inside paragraphs', (done) ->
       if console.timeEnd
@@ -193,3 +206,4 @@ describe 'Flatten component', ->
         chai.expect(data).to.eql expected
         done()
       ins.send sent
+      ins.disconnect()
