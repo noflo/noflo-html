@@ -19,9 +19,6 @@ exports.getComponent = ->
     description: 'CSS selector to use'
   c.inPorts.add 'ignoreselector',
     datatype: 'string'
-    process: (event, payload) ->
-      return unless event is 'data'
-      c.ignoreSelectors.push payload
 
   c.ignoreSelectors = []
 
