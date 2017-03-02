@@ -13,9 +13,9 @@ exports.getComponent = ->
     datatype: 'object'
 
   c.process (input, output) ->
-    data = input.get 'in'
-    return unless data.type is 'data'
-    page = clone data.data
+    return unless input.hasData 'in'
+    data = input.getData 'in'
+    page = clone data
 
     f = new Flattener
     f.processPage page, (err, result) ->

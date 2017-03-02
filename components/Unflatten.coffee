@@ -11,10 +11,10 @@ exports.getComponent = ->
     datatype: 'object'
 
   c.process (input, output) ->
-    packet = input.get 'in'
-    return unless packet.type is 'data'
+    return unless input.hasData 'in'
+    data = input.getData 'in'
 
-    page = clone packet.data
+    page = clone data
     page.content = [] unless page?.content
 
     page.html = page.content.map((block) -> block.html).join '\n'
