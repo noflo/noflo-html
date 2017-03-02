@@ -10,7 +10,6 @@ decode = (str) ->
 exports.getComponent = ->
   c = new noflo.Component
   c.description = 'Extract contents from HTML based on CSS selectors'
-  c.ignoreSelectors = []
 
   c.inPorts.add 'in',
     datatype: 'string'
@@ -24,21 +23,32 @@ exports.getComponent = ->
       return unless event is 'data'
       c.ignoreSelectors.push payload
 
+  c.ignoreSelectors = []
+
+  c.cleanUp = (callback) ->
+    c.ignoreSelectors = []
+    callback()
+
   c.outPorts.add 'out',
     datatype: 'string'
 
-  noflo.helpers.WirePattern c,
-    in: ['in', 'textselector']
-    out: 'out'
-    forwardGroups: true
-  , (data, groups, out) ->
-    $ = cheerio.load data.in
+  c.process (input, output) ->
+    while input.hasData 'ignoreselector'
+      c.ignoreSelectors.push input.getData 'ignoreselector'
+
+    return unless input.hasData 'in', 'textselector'
+    [data, textselector] = input.getData 'in', 'textselector'
+    $ = cheerio.load data
     $(ignore).remove() for ignore in c.ignoreSelectors
-    $(data.textselector).each (i,e) ->
+    $(textselector).each (i,e) ->
       o = $(e)
       id = o.attr "id"
-      out.beginGroup id if id?
-      out.send decode o.text()
-      out.endGroup() if id?
-
-  c
+      if id?
+        output.send
+          out: new noflo.IP 'openBracket', id
+      output.send
+        out: decode o.text()
+      if id?
+        output.send
+          out: new noflo.IP 'closeBracket', id
+    output.done()
