@@ -44,9 +44,12 @@ describe 'ScrapeHtml component', ->
         received.push "< #{grp}"
       out.on 'data', (data) ->
         received.push "DATA #{data}"
+        return unless received.length is expected.length
+        chai.expect(received).to.eql expected
+        done()
       out.on 'endgroup', ->
         received.push '>'
-      out.on 'disconnect', ->
+        return unless received.length is expected.length
         chai.expect(received).to.eql expected
         done()
 
@@ -67,9 +70,12 @@ describe 'ScrapeHtml component', ->
         received.push "< #{grp}"
       out.on 'data', (data) ->
         received.push "DATA #{data}"
+        return unless received.length is expected.length
+        chai.expect(received).to.eql expected
+        done()
       out.on 'endgroup', ->
         received.push '>'
-      out.on 'disconnect', ->
+        return unless received.length is expected.length
         chai.expect(received).to.eql expected
         done()
 
@@ -89,9 +95,12 @@ describe 'ScrapeHtml component', ->
         received.push "< #{grp}"
       out.on 'data', (data) ->
         received.push "DATA #{data}"
+        return unless received.length is expected.length
+        chai.expect(received).to.eql expected
+        done()
       out.on 'endgroup', ->
         received.push '>'
-      out.on 'disconnect', ->
+        return unless received.length is expected.length
         chai.expect(received).to.eql expected
         done()
 
@@ -119,9 +128,12 @@ describe 'ScrapeHtml component', ->
         received.push "< #{grp}"
       out.on 'data', (data) ->
         received.push "DATA #{data}"
+        return unless received.length is expected.length
+        chai.expect(received).to.eql expected
+        done()
       out.on 'endgroup', ->
         received.push '>'
-      out.on 'disconnect', ->
+        return unless received.length is expected.length
         chai.expect(received).to.eql expected
         done()
 
