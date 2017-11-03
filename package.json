@@ -33,7 +33,7 @@
     "mocha": "^4.0.0"
   },
   "noflo": {
-    "icons": "html5",
+    "icons": "html5"
   },
   "scripts": {
     "test": "grunt test"
